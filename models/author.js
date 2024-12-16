@@ -14,7 +14,7 @@ const Author = {
     getAuthorById: async (id) => {
         const query = 'SELECT * FROM authors WHERE id = ?';
         try {
-            const [rows] = await db.promise().query(query);
+            const [rows] = await db.promise().query(query, [id]);
             return rows[0];
         } catch (err) {
             throw new Error('Failed to fetch author: ' + err.message);
