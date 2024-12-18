@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+
+<h1>Your Profile</h1>
+
+<!-- Profile picture display -->
+<div>
+    <img src="/uploads/<%= user.profile_picture || 'default-profile.jpg' %>" alt="Profile Picture" width="150" height="150">
+</div>
+
+<!-- Form to update profile -->
+<form action="/users/profile" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="_method" value="PUT">
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" value="<%= user.username %>" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="<%= user.email %>" required>
+
+    <label for="profile_picture">Profile Picture:</label>
+    <input type="file" id="profile_picture" name="profile_picture">
+
+    <button type="submit">Update Profile</button>
+</form>
+
+</body>
+</html>

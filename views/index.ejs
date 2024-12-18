@@ -1,1 +1,58 @@
-Hello World!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Library - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .nav-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .nav-link {
+            display: block;
+            margin: 10px 0;
+            padding: 15px 30px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            width: 200px;
+        }
+        .nav-link:hover {
+            background-color: #0056b3;
+        }
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="welcome-message">
+    <% if (username) { %>
+        <h1>Welcome, <%= username %>!</h1>
+    <% } else { %>
+        <h1>Welcome to the Digital Library!</h1>
+    <% } %>
+    <p>Explore your library, search for new books, or manage your profile.</p>
+</div>
+
+<div class="nav-container">
+    <a href="/library" class="nav-link">Go to Your Library</a>
+    <a href="/books/search" class="nav-link">Search for Books</a>
+    <a href="/users/profile" class="nav-link">View Profile</a>
+    <% if (username) { %>
+    <form action="/users/logout" method="POST">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+    <% } %>
+</div>
+</body>
+</html>

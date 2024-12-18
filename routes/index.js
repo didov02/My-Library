@@ -1,9 +1,11 @@
-const express = require('express')
-const router = express.Router()
-const Book = require('../models/book')
+const express = require('express');
+const router = express.Router();
+const Book = require('../models/book');
+const authJWT = require('./middleware/authMiddleware');
+const indexPage = require('../controllers/indexController');
 
-router.get('/', async (req, res) => {
-    res.render('index');
-})
+router.use(authJWT);
 
-module.exports = router
+router.get('/', indexPage);
+
+module.exports = router;

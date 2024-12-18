@@ -10,10 +10,17 @@ router.get('/register', (req, res) => {
 router.post('/register', usersController.register);
 
 // Login user
+router.get('/login', (req, res) => {
+    const message = req.query.message || '';
+        res.render('users/login', { alertMessage : message });
+});
+
 router.post('/login', usersController.login);
 
-router.get('/login', (req, res) => {
-    res.render('users/login');
-});
+router.post('/logout', usersController.logout);
+
+router.get('/profile', usersController.viewProfile);
+
+router.put('/profile', usersController.updateProfile);
 
 module.exports = router;
