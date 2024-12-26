@@ -16,19 +16,22 @@
 </div>
 
 <!-- Form to update profile -->
-<form action="/users/profile" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="_method" value="PUT">
+<form action="/users/profile?_method=PUT" method="POST" enctype="multipart/form-data">
 
     <label for="username">Username:</label>
-    <input type="text" id="username" name="username" value="<%= user.username %>" required>
+    <input type="text" id="newUsername" name="newUsername" value="<%= user.username %>" required>
 
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" value="<%= user.email %>" required>
+    <input type="email" id="newEmail" name="newEmail" value="<%= user.email %>" required>
 
     <label for="profile_picture">Profile Picture:</label>
     <input type="file" id="profile_picture" name="profile_picture">
 
     <button type="submit">Update Profile</button>
+</form>
+
+<form action="/" method="GET">
+    <button type="submit" class="button">Return to Home</button>
 </form>
 
 </body>

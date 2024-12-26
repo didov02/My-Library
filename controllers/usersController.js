@@ -123,6 +123,18 @@ const usersController = {
             queryParams.push(oldUsername, oldEmail);
             await db.promise().query(query, queryParams);
 
+            const updatedUsername = newUsername || oldUsername;
+            const updatedEmail = newEmail || oldEmail;
+
+            const newToken = User.generateToken({ username: updatedUsername, email: updatedEmail });
+
+            res.cookie('token', newToken, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'Strict',
+                maxAge: 24 * 60 * 60 * 1000, // 1 day
+            });
+
             res.redirect('/users/profile');
         } catch {
             res.status(500).json({error: "Failed to update profile"});

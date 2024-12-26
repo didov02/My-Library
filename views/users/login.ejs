@@ -13,13 +13,22 @@
     <p class="alert"><%= alertMessage %></p>
 <% } %>
 
+<!-- Login Form -->
 <form action="login" method="POST">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required>
+
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required>
+
     <button type="submit">Login</button>
 </form>
+
+<!-- Redirect to Register -->
+<div>
+    <p>Don't have an account?</p>
+    <button onclick="window.location.href='/users/register';" class="btn-register">Register</button>
+</div>
 
 <script>
     // Remove query string from URL
