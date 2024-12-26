@@ -1,7 +1,9 @@
 const express = require('express');
+const router = express.Router();
 const ratingsController = require('../controllers/ratingsController');
 
-const router = express.Router();
+const authJWT = require('./middleware/authMiddleware');
+router.use(authJWT);
 
 router.post('/add', ratingsController.addRating);
 

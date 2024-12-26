@@ -1,47 +1,42 @@
-/* General styles for the project */
 body {
     font-family: Arial, sans-serif;
-    background-color: #1e3a5f; /* Deep blue */
-    color: #d1d1d1; /* Light gray text for contrast */
+    background-color: #1e3a5f;
+    color: #d1d1d1;
     margin: 0;
     padding: 0;
 }
 
-/* Form container */
 form {
     margin: 20px auto;
     padding: 20px;
     max-width: 400px;
-    background-color: #f5f5f5; /* Light gray for the form background */
+    background-color: #f5f5f5;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Darker shadow for depth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Label styles */
 label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
-    color: #333; /* Darker gray for label text */
+    color: #333;
 }
 
-/* Input styles */
 input {
     display: block;
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #b0bec5; /* Cool gray border */
+    border: 1px solid #b0bec5;
     border-radius: 4px;
-    background-color: #e0e7ef; /* Very light blue */
-    color: #333; /* Dark gray text */
+    background-color: #e0e7ef;
+    color: #333;
 }
 
-/* Button styles */
 button {
     padding: 10px 15px;
-    background-color: #1976d2; /* Mid blue */
-    color: #fff; /* White text for contrast */
+    background-color: #1976d2;
+    color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -49,18 +44,39 @@ button {
 }
 
 button:hover {
-    background-color: #004ba0; /* Darker blue on hover */
+    background-color: #004ba0;
 }
 
-/* Heading styles */
 h1 {
     text-align: center;
-    color: #e3f2fd; /* Light blue text */
+    color: #e3f2fd;
     margin-bottom: 20px;
 }
 
-/* Additional styles for better spacing */
 body {
     padding-top: 50px;
+}
+
+.alert {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 40px;
+}
+
+.btn-register {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #1976d2; /* Mid blue */
+    color: white; /* White text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-register:hover {
+    background-color: #004ba0; /* Darker blue on hover */
 }
 

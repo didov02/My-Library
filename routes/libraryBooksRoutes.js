@@ -1,7 +1,10 @@
 const express = require('express');
+const router = express.Router();
 const libraryBookController = require('../controllers/libraryBooksController');
 
-const router = express.Router();
+const authJWT = require('./middleware/authMiddleware');
+router.use(authJWT);
+
 
 router.post('/save', libraryBookController.saveBook);
 
