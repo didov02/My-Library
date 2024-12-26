@@ -1,7 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const authJWT = require('./middleware/authMiddleware');
+const ratingsController = require('../controllers/ratingsController');
 
+const authJWT = require('./middleware/authMiddleware');
 router.use(authJWT);
 
-module.exports = router;
+router.post('/add', ratingsController.addRating);
+
+router.delete('/:ratingId', ratingsController.deleteRating);
+
+router.get('/:bookId', ratingsController.getAllRatingsByBook);
+
+router.put('/:ratingId', ratingsController.editRating);

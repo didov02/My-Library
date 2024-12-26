@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const authJWT = require('./middleware/authMiddleware');
-const libraryBooksController = require('../controllers/libraryBooksController');
+const libraryBookController = require('../controllers/libraryBooksController');
 
+const authJWT = require('./middleware/authMiddleware');
 router.use(authJWT);
 
-router.get('/', libraryBooksController.getAllLibraryBooks);
 
-router.put('/status', libraryBooksController.updateLibraryBook);
+router.post('/save', libraryBookController.saveBook);
 
-router.delete('/:bookId', libraryBooksController.removeBook);
+router.delete('/:userId/:bookId', libraryBookController.deleteBook);
 
 module.exports = router;

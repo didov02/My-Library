@@ -4,9 +4,10 @@ const express = require('express');
 const indexRouter = require('./routes/index')
 const authorRouter = require('./routes/authorsRoutes');
 const userRouter = require('./routes/usersRoutes');
-const libraryRouter = require('./routes/libraryBooksRoutes');
-const commentRouter = require('./routes/commentsRoutes');
-const ratingRouter = require('./routes/ratingsRoutes');
+const bookRouter = require('./routes/booksRoutes');
+const libraryBookRouter = require('./routes/libraryBooksRoutes');
+const commentsRouter = require('./routes/commentsRoutes');
+const ratingsRouter = require('./routes/ratingsRoutes');
 
 const cookieParser = require('cookie-parser');
 
@@ -29,8 +30,11 @@ app.use(cookieParser());
 app.use('/', indexRouter);
 app.use('/authors', authorRouter);
 app.use('/users', userRouter);
+
 app.use('/library', libraryRouter);
 app.use('/comments', commentRouter);
 app.use('ratings', ratingRouter);
+app.use('/books', bookRouter);
+
 
 app.listen(port);
