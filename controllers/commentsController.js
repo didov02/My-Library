@@ -22,7 +22,7 @@ const commentController = {
         const { commentId } = req.params;
 
         if (!commentId || !userId) {
-            res.staus(400).json({ message: 'Comment ID or User ID are missing'});
+            res.status(400).json({ message: 'Comment ID or User ID are missing'});
         }
 
         try {

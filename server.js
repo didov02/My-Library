@@ -6,8 +6,9 @@ const authorRouter = require('./routes/authorsRoutes');
 const userRouter = require('./routes/usersRoutes');
 const bookRouter = require('./routes/booksRoutes');
 const libraryBookRouter = require('./routes/libraryBooksRoutes');
-const commentsRouter = require('./routes/commentsRoutes');
-const ratingsRouter = require('./routes/ratingsRoutes');
+const commentRouter = require('./routes/commentsRoutes');
+const ratingRouter = require('./routes/ratingsRoutes');
+const path = require('path');
 
 const cookieParser = require('cookie-parser');
 
@@ -22,9 +23,10 @@ app.use(methodOverride('_method'));
 
 app.use('/uploads', express.static('uploads'));
 
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
 app.use(cookieParser());
 
 app.use('/', indexRouter);

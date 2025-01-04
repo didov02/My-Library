@@ -14,7 +14,7 @@ const usersController = {
 
         try {
             const result = await User.registerUser(username, email, password);
-            res.status(201).json({message: "User registered successfully"});
+            res.redirect('/');
         } catch (err) {
             res.status(500).json({error: "Failed to register user"});
         }
@@ -44,7 +44,6 @@ const usersController = {
                 maxAge: 24 * 60 * 60 * 1000
             });
 
-            //res.redirect('/library/');
             res.redirect('/');
         } catch (err) {
             res.status(500).json({error: "Failed to login"});
@@ -101,6 +100,32 @@ const usersController = {
 
             const { newUsername, newEmail } = req.body;
             const profilePicture = req.file ? req.file.filename : null;
+
+            /*if (newUsername) {
+                const [usernameCheck] = await db.promise().query(
+                    'SELECT username FROM Users WHERE username = ?',
+                    [newUsername]
+                );
+                if (usernameCheck.length > 0) {
+                    return res.status(400).render('users/profile', {
+                        user: { username: oldUsername, email: oldEmail, profile_picture: null },
+                        errorMessage: 'Username already exists. Please choose a different one.'
+                    });
+                }
+            }
+
+            if (newEmail) {
+                const [emailCheck] = await db.promise().query(
+                    'SELECT email FROM Users WHERE email = ?',
+                    [newEmail]
+                );
+                if (emailCheck.length > 0) {
+                    return res.status(400).render('users/profile', {
+                        user: { username: oldUsername, email: oldEmail, profile_picture: null },
+                        errorMessage: 'Email already exists. Please choose a different one.'
+                    });
+                }
+            }*/
 
             let query = 'UPDATE Users SET';
             let queryParams = [];

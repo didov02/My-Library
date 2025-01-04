@@ -4,35 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/css/global.css">
+    <link rel="stylesheet" href="/public/css/profile.css">
 </head>
 <body>
 
-<h1>Your Profile</h1>
+<div class="profile-container">
+    <h1>Your Profile</h1>
 
-<!-- Profile picture display -->
-<div>
-    <img src="/uploads/<%= user.profile_picture || 'default-profile.jpg' %>" alt="Profile Picture" width="150" height="150">
+    <div class="profile-picture-container">
+        <% if (user.profile_picture) { %>
+            <img src="/uploads/<%= user.profile_picture %>" alt="Profile Picture" width="150" height="150">
+        <% } else { %>
+            <img src="/uploads/default-picture.png" alt="Default Profile Picture" width="150" height="150">
+        <% } %>    </div>
+
+    <form action="/users/profile?_method=PUT" method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="username" class="label">Username:</label>
+            <input type="text" id="newUsername" name="newUsername" value="<%= user.username %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="label">Email:</label>
+            <input type="email" id="newEmail" name="newEmail" value="<%= user.email %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="profile_picture" class="label">Profile Picture:</label>
+            <input type="file" id="profile_picture" name="profile_picture">
+        </div>
+
+        <div class="btn-container">
+            <button type="submit" class="btn-primary">Update Profile</button>
+        </div>
+    </form>
+
+    <div class="btn-container">
+        <form action="/" method="GET">
+            <button type="submit" class="btn-primary">Return to Home</button>
+        </form>
+    </div>
 </div>
-
-<!-- Form to update profile -->
-<form action="/users/profile?_method=PUT" method="POST" enctype="multipart/form-data">
-
-    <label for="username">Username:</label>
-    <input type="text" id="newUsername" name="newUsername" value="<%= user.username %>" required>
-
-    <label for="email">Email:</label>
-    <input type="email" id="newEmail" name="newEmail" value="<%= user.email %>" required>
-
-    <label for="profile_picture">Profile Picture:</label>
-    <input type="file" id="profile_picture" name="profile_picture">
-
-    <button type="submit">Update Profile</button>
-</form>
-
-<form action="/" method="GET">
-    <button type="submit" class="button">Return to Home</button>
-</form>
 
 </body>
 </html>
