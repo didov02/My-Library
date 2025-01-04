@@ -12,3 +12,5 @@ router.delete('/:ratingId', ratingsController.deleteRating);
 router.get('/:bookId', ratingsController.getAllRatingsByBook);
 
 router.put('/:ratingId', ratingsController.editRating);
+
+module.exports = router;
