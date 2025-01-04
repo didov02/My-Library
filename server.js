@@ -31,9 +31,9 @@ app.use('/', indexRouter);
 app.use('/authors', authorRouter);
 app.use('/users', userRouter);
 
-app.use('/library', libraryRouter);
-app.use('/comments', commentRouter);
-app.use('ratings', ratingRouter);
+app.use('/library', libraryBookRouter);
+app.use('/comments', commentsRouter);
+app.use('/ratings', ratingsRouter);
 app.use('/books', bookRouter);
 
 

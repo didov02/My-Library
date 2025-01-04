@@ -54,3 +54,5 @@ const Rating = {
         }
     }
 }
+
+module.exports = Rating;
