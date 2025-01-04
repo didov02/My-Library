@@ -1,5 +1,6 @@
 const db = require("../db.js");
 const axios = require('axios');
+const LibraryBook = require('./libraryBook.js')
 
 const GOOGLE_BOOKS_API_URL = 'https://www.googleapis.com/books/v1/volumes';
 const API_KEY = 'AIzaSyA5dGCpvQZTZFJ4AYfamPO29QBIC4KANTA';
@@ -33,21 +34,43 @@ const Book = {
         }
     },
 
-    saveBook: async (book) => {
-        const [exists] = await db.promise().query("SELECT id FROM Books WHERE id = ?", [book.id]);
-        if (exists.length === 0) {
-            await db.promise().query(
-                "INSERT INTO Books (id, title, author_id, genre, year_of_publication, description, cover_image) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                [
-                    book.id,
-                    book.title,
-                    book.authors.join(', '),
-                    book.genre.join(', '),
-                    book.year_of_publication,
-                    book.description,
-                    book.cover_image
-                ]
-            );
+    saveBook: async (book, username) => {
+        try {
+            const [exists] = await db.promise().query("SELECT google_id FROM Books WHERE google_id = ?", [book.id]);
+
+            if (exists.length === 0) {
+                await db.promise().query(
+                    "INSERT INTO Books (google_id, title, author_name, genre, year_of_publication, description, cover_image) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    [
+                        book.id,
+                        book.title,
+                        book.authors.join(', '),
+                        book.genre.join(', '),
+                        book.year_of_publication,
+                        book.description,
+                        book.cover_image
+                    ]
+                );
+            }
+
+            const wantToRead = 'want_to_read';
+
+            
+
+            const [userResult] = await db.promise().query("SELECT id FROM Users WHERE username = ?", [username]);
+
+            if (userResult.length === 0) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+
+            const userId = userResult[0].id;
+
+            const libraryBookResponse = await LibraryBook.saveBook(userId, book.id, wantToRead);
+
+            return libraryBookResponse;
+        } catch (error) {
+            console.error('Error saving book to library:', error);
+            throw error;
         }
     }
 }

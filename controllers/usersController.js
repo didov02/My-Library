@@ -35,6 +35,7 @@ const usersController = {
 
             // Generate JWT Token
             const token = User.generateToken(user);
+            console.log(token);
 
             res.cookie('token', token, {
                 httpOnly: true,
