@@ -4,38 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/css/global.css">
+    <link rel="stylesheet" href="/public/css/authorize.css">
 </head>
 <body>
-<h1>Login</h1>
+<div class="container">
+    <h1>Login</h1>
 
-<% if (alertMessage) { %>
-    <p class="alert"><%= alertMessage %></p>
-<% } %>
+    <% if (alertMessage) { %>
+        <p class="alert"><%= alertMessage %></p>
+    <% } %>
 
-<!-- Login Form -->
-<form action="login" method="POST">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
+    <!-- Login Form -->
+    <div class="form-container">
+        <form action="login" method="POST">
+            <div class="form-group">
+                <label for="username" class="label">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
+            <div class="form-group">
+                <label for="password" class="label">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
 
-    <button type="submit">Login</button>
-</form>
+            <div class="btn-container">
+                <button type="submit" class="btn-primary">Login</button>
+            </div>
+        </form>
+    </div>
 
-<!-- Redirect to Register -->
-<div>
-    <p>Don't have an account?</p>
-    <button onclick="window.location.href='/users/register';" class="btn-register">Register</button>
+    <div class="form-container">
+        <p>Don't have an account?</p>
+        <button onclick="window.location.href='/users/register';" class="btn-primary">Register</button>
+    </div>
 </div>
 
 <script>
-    // Remove query string from URL
     const url = new URL(window.location.href);
     if (url.searchParams.has('message')) {
-        url.searchParams.delete('message'); // Remove the message parameter
-        window.history.replaceState(null, '', url.pathname); // Update the URL without reloading
+        url.searchParams.delete('message');
+        window.history.replaceState(null, '', url.pathname);
     }
 </script>
 
