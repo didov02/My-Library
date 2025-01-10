@@ -72,6 +72,31 @@ const Book = {
             console.error('Error saving book to library:', error);
             throw error;
         }
+    },
+
+    getBookDetails: async (bookId) => {
+        try {
+            const response = await axios.get(`${GOOGLE_BOOKS_API_URL}/${bookId}`, {
+                params: {
+                    key: API_KEY,
+                },
+            });
+
+            const book = response.data.volumeInfo;
+
+            return {
+                id: bookId,
+                title: book.title || 'No title available',
+                authors: book.authors || ['No authors available'],
+                genre: book.categories || ['No genre available'],
+                year_of_publication: book.publishedDate || 'Unknown',
+                description: book.description || 'No description available.',
+                cover_image: book.imageLinks?.thumbnail || 'No cover image available.',
+            };
+        } catch (error) {
+            console.error('Error fetching book details from Google Books API:', error);
+            throw error;
+        }
     }
 }
 

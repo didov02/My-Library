@@ -8,6 +8,8 @@ router.use(authJWT);
 
 router.get('/search', booksController.searchBook);
 
+router.get('/:bookId', booksController.getBookDetails); 
+
 router.post('/save', booksController.saveBook);
 
 module.exports = router;

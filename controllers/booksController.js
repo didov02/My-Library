@@ -1,4 +1,5 @@
 const Book = require('../models/book');
+const db = require('../db')
 
 const booksController = {
     searchBook: async (req, res) => {
@@ -9,7 +10,7 @@ const booksController = {
 
         try {
             const books = await Book.searchBook(query);
-            res.json(books);
+            res.render('books/search', { query, results: books});
         } catch (err) {
             console.error('Error searching for books:', err);
             res.status(500).json({ error: 'Failed to fetch books' , details: err.message});
@@ -31,7 +32,25 @@ const booksController = {
             console.error('Error saving the book:', err);
             res.status(500).json({ error: 'Failed to save the book' });
         }
-    }
+    },
+
+    getBookDetails: async (req, res) => {
+        const { bookId } = req.params;
+        const { query } = req.query;
+
+        try {
+            const bookDetails = await Book.getBookDetails(bookId);
+
+            if (!bookDetails) {
+                return res.status(404).json({ error: 'Book not found' });
+            }
+
+            res.render('books/details', { book: bookDetails, query: query });
+        } catch (err) {
+            console.error('Error fetching book details:', err);
+            res.status(500).json({ error: 'Failed to fetch book details', details: err.message });
+        }
+    },
 };
 
 module.exports = booksController;
