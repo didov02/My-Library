@@ -26,8 +26,35 @@ const booksController = {
         }
 
         try {
+            const book = {
+                google_id: req.body.id,
+                title: req.body.title,
+                authors: req.body.authors.split(", "),
+                genre: req.body.genre.split(", "),
+                year_of_publication: req.body.year_of_publication,
+                description: req.body.description,
+                cover_image: req.body.cover_image,
+            }
+            const [userResult] = await db.promise().query("SELECT id FROM Users WHERE username = ?", [username]);
+            if (userResult.length === 0) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+    
+            const userId = userResult[0].id;
+    
+            const [exists] = await db.promise().query(
+                "SELECT * FROM LibraryBooks WHERE user_id = ? AND google_id = ?",
+                [userId, book.id]
+            );
+    
+            if (exists.length > 0) {
+                return res.status(200).json({ message: 'You already have this book in your library.' });
+            }
+    
             await Book.saveBook(book, username);
-            res.status(201).json({ message: 'Book saved successfully' });
+    
+            return res.status(201).json({ message: 'Book successfully added to your library.' });
+
         } catch (err) {
             console.error('Error saving the book:', err);
             res.status(500).json({ error: 'Failed to save the book' });
@@ -36,7 +63,7 @@ const booksController = {
 
     getBookDetails: async (req, res) => {
         const { bookId } = req.params;
-        const { query } = req.query;
+        const { query } = req.query.query || "";
 
         try {
             const bookDetails = await Book.getBookDetails(bookId);

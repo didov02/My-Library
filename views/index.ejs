@@ -26,7 +26,7 @@
     </div>
 
     <div class="btn-container">
-        <a href="/library" class="btn btn-primary">Go to Your Library</a>
+        <a href="/library/<%= username %>" class="btn btn-primary">Go to Your Library</a>
         <a href="/users/profile" class="btn btn-primary">View Profile</a>
         <% if (username) { %>
             <form action="/users/logout" method="POST">

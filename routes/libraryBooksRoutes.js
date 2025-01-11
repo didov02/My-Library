@@ -10,4 +10,6 @@ router.post('/save', libraryBookController.saveBook);
 
 router.delete('/:userId/:bookId', libraryBookController.deleteBook);
 
+router.get('/:username', libraryBookController.getUserBooks);
+
 module.exports = router;
