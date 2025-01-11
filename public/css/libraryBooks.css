@@ -1,0 +1,54 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.books-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.book {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.book-info {
+    display: flex;
+    gap: 20px;
+}
+
+.book img {
+    max-width: 150px;
+    height: auto;
+}
+
+.book-details {
+    flex: 1;
+}
+
+.book h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.book p {
+    margin: 5px 0;
+}
+
+.book-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.book-actions .btn {
+    margin-left: 0;
+}

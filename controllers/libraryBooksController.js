@@ -23,8 +23,19 @@ const libraryBookController = {
             console.error('Error deleting book:', error);
             res.status(500).json({ message: 'Failed to delete book from library', error: error.message });
         }
-    }
+    },
+
+    getUserBooks: async (req, res) => {
+        const { username } = req.params;
+
+        try {
+            const userBooks = await LibraryBook.getUserBooks(username);
+            res.render('library/libraryBooks', { books: userBooks, user: req.user });
+        } catch (err) {
+            console.error('Error retrieving user books:', err);
+            res.status(500).json({ error: 'Failed to retrieve user books' });
+        }
+    },
 };
 
 module.exports = libraryBookController;
-

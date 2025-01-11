@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= book.title %> - Book Details</title>
+    <link rel="stylesheet" href="/public/css/global.css">
+    <link rel="stylesheet" href="/public/css/details.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/books/search?query=<%= query %>" class="btn btn-secondary back-btn">Back to search</a>
+
+        <div class="book-details">
+            <div class="book-cover">
+                <img src="<%= book.cover_image %>" alt="<%= book.title %>">
+            </div>
+            <div class="book-info">
+                <h1><%= book.title %></h1>
+                <p><strong>Authors:</strong> <%= book.authors || 'No authors available' %></p>
+                <p><strong>Description:</strong> <%= book.description || 'No description available.' %></p>
+                <p><strong>Genres:</strong> <%= book.genre || 'No genre available' %></p>
+                <p><strong>Year of Publication:</strong> <%= book.year_of_publication %></p>
+            </div>
+        </div>
+
+        <form id="add-to-library-form" method="POST" action="/books/save">
+            <input type="hidden" name="google_id" value="<%= book.id %>">
+            <input type="hidden" name="title" value="<%= book.title %>">
+            <input type="hidden" name="authors" value="<%= book.authors.join(', ') %>">
+            <input type="hidden" name="genre" value="<%= book.genre.join(', ') %>">
+            <input type="hidden" name="year_of_publication" value="<%= book.year_of_publication %>">
+            <input type="hidden" name="description" value="<%= book.description %>">
+            <input type="hidden" name="cover_image" value="<%= book.cover_image %>">
+            <button type="submit" class="btn btn-primary">Add to Library</button>
+        </form>
+    </div>
+</body>
+</html>

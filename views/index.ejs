@@ -18,9 +18,15 @@
         <p>Explore your library, search for new books, or manage your profile.</p>
     </div>
 
+    <div class="search-container">
+        <form action="/books/search" method="GET">
+            <input type="text" name="query" id="search-bar" placeholder="Search for books..." required>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
     <div class="btn-container">
-        <a href="/library" class="btn btn-primary">Go to Your Library</a>
-        <a href="/books/search" class="btn btn-primary">Search for Books</a>
+        <a href="/library/<%= username %>" class="btn btn-primary">Go to Your Library</a>
         <a href="/users/profile" class="btn btn-primary">View Profile</a>
         <% if (username) { %>
             <form action="/users/logout" method="POST">

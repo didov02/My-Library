@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="/public/css/global.css">
+    <link rel="stylesheet" href="/public/css/search.css"> <!-- Link to new search CSS file -->
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <form action="/books/search" method="get" class="search-form">
+                <input type="text" name="query" placeholder="Search for books..." value="<%= query %>" required>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <a href="/" class="btn btn-secondary back-btn">Back to Library</a>
+        </div>
+        <h1>Search Results for "<%= query %>"</h1>
+        <div class="books-container">
+            <% if (results.length > 0) { %>
+                <% results.forEach(book => { %>
+                    <div class="book-item">
+                        <img src="<%= book.cover_image %>" alt="<%= book.title %>" class="book-cover" />
+                        <h3 class="book-title"><%= book.title %></h3>
+                        <a href="/books/<%= book.id %>" class="btn btn-primary">See Book</a>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No books found for your search.</p>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
