@@ -1,4 +1,8 @@
 const Rating = require('../models/rating');
+const {verify} = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const ratingController = {
     addRating: async (req, res) => {
@@ -46,7 +50,7 @@ const ratingController = {
         }
 
         try {
-            const ratings = await Rating.getRatingsByBookId(bookId);
+            const ratings = await Rating.getAllRatingsByBook(bookId);
             res.status(200).json(ratings);
         } catch (error) {
             console.error('Error fetching ratings:', error);

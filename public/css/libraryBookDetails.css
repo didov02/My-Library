@@ -1,8 +1,3 @@
-.header {
-    display: flex;
-    justify-content: space-between;
-}
-
 .container {
     max-width: 1000px;
     margin: 0 auto;
@@ -27,6 +22,12 @@
     margin-bottom: 10px;
 }
 
+.image {
+    align-self: center;
+    justify-self: center;
+    min-width: 90%;
+}
+
 .book {
     display: flex;
     flex-direction: column;
@@ -40,8 +41,16 @@
 
 .book-info {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 20px;
+    max-width: 70%;
+}
+
+.book-cover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 30%;
 }
 
 .book img {
@@ -53,6 +62,11 @@
     flex: 1;
 }
 
+.book-details-container {
+    display: flex;
+    justify-content: space-between;
+}
+
 .book-actions {
     display: flex;
     flex-direction: column;
@@ -62,6 +76,8 @@
     margin-left: 0;
 }
 
-.remove-book-form {
-    width: 100%;
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

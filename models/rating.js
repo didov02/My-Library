@@ -27,13 +27,18 @@ const Rating = {
         }
     },
 
-    getAllRatingsByBook: async (bookId) => {
+    getAllRatingsByBook: async (googleId) => {
         try {
+            const [bookId] = await db.promise().query(
+                "SELECT id FROM Books WHERE google_id = ? limit 1", [googleId]
+            )
+
             const [ratings] = await db.promise().query(
                 "SELECT r.id, r.rating, r.created_at, u.username FROM Ratings r " +
                 "JOIN Users u ON r.user_id = u.id WHERE r.book_id = ? ORDER BY r.created_at DESC",
                 [bookId]
             );
+
             return ratings;
         } catch (error) {
             console.error('Error fetching ratings:', error);

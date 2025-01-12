@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Book</title>
+    <link rel="stylesheet" href="/public/css/global.css">
+    <link rel="stylesheet" href="/public/css/ratings.css">
+</head>
+<body>
+<div class="container">
+    <h1>Rate and Review Book</h1>
+
+    <!-- Display the book title and cover -->
+    <div class="book-info">
+        <img src="<%= book.cover_image %>" alt="<%= book.title %>" class="book-cover">
+        <h2><%= book.title %></h2>
+        <p><strong>Author:</strong> <%= book.author_name %></p>
+    </div>
+
+    <!-- Rating form -->
+    <form action="/ratings/<%= book.google_id %>/add" method="POST" class="rating-form">
+        <div class="form-group">
+            <label for="rating">Rating (1 to 5):</label>
+            <select name="rating" id="rating" required>
+                <option value="" disabled selected>Select rating</option>
+                <% for (let i = 1; i <= 5; i++) { %>
+                    <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="review">Review:</label>
+            <textarea name="review" id="review" rows="5" placeholder="Write your review here..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit Rating</button>
+    </form>
+
+    <!-- Back button -->
+    <a href="/library/book/<%= book.google_id %>" class="btn btn-secondary">Back to Book</a>
+</div>
+</body>
+</html>

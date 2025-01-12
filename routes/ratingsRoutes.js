@@ -5,12 +5,10 @@ const ratingsController = require('../controllers/ratingsController');
 const authJWT = require('./middleware/authMiddleware');
 router.use(authJWT);
 
-router.post('/add', ratingsController.addRating);
+router.post('/:bookId/add', ratingsController.addRating);
 
-router.delete('/:ratingId', ratingsController.deleteRating);
+router.delete('/:bookId/:ratingId', ratingsController.deleteRating);
 
 router.get('/:bookId', ratingsController.getAllRatingsByBook);
-
-router.put('/:ratingId', ratingsController.editRating);
 
 module.exports = router;

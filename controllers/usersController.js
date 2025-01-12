@@ -63,10 +63,6 @@ const usersController = {
     viewProfile: async (req, res) => {
         const token = req.cookies.token || '';
 
-        if(!token) {
-            return res.status(401).json({error: 'Not authenticated'});
-        }
-
         try {
             const decoded = verify(token, JWT_SECRET);
             const username = decoded.username;
