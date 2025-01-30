@@ -1,11 +1,11 @@
 const db = require('../db.js');
 
 const Rating = {
-    addRating: async (userId, bookId, rating) => {
+    addRating: async (userId, bookId, rating, review) => {
         try {
             const [result] = await db.promise().query(
-                "INSERT INTO Ratings (user_id, book_id, rating) VALUES (?, ?, ?)",
-                [userId, bookId, rating]
+                "INSERT INTO Ratings (user_id, book_id, rating, review) VALUES (?, ?, ?, ?)",
+                [userId, bookId, rating, review]
             );
             return result.insertId;
         } catch (error) {
@@ -27,19 +27,36 @@ const Rating = {
         }
     },
 
-    getAllRatingsByBook: async (googleId) => {
+    getRatingByUserAndBook: async (userId, googleId) => {
+        const query = `SELECT * FROM ratings WHERE user_id = ? AND book_id = ?`;
         try {
-            const [bookId] = await db.promise().query(
+            const [bookResult] = await db.promise().query(
                 "SELECT id FROM Books WHERE google_id = ? limit 1", [googleId]
             )
+            const bookId = bookResult[0].id;
+            const [rows] = await db.promise().query("SELECT * FROM ratings WHERE user_id = ? AND book_id = ?", [userId, bookId]);
+            return rows.length > 0 ? rows[0] : null;
+        } catch (error) {
+            console.error('Error fetching ratings:', error);
+            throw error;
+        }
+    },
 
-            const [ratings] = await db.promise().query(
+    getRatingByBookByUser: async (userId, googleId) => {
+        try {
+            const [bookResult] = await db.promise().query(
+                "SELECT * FROM Books WHERE google_id = ? limit 1", [googleId]
+            )
+            const book = bookResult[0];
+
+            const [ratingResult] = await db.promise().query(
                 "SELECT r.id, r.rating, r.created_at, u.username FROM Ratings r " +
-                "JOIN Users u ON r.user_id = u.id WHERE r.book_id = ? ORDER BY r.created_at DESC",
-                [bookId]
+                "JOIN Users u ON r.user_id = u.id WHERE r.book_id = ? and u.id = ? ORDER BY r.created_at DESC",
+                [book.id, userId]
             );
+            const rating = ratingResult[0];
 
-            return ratings;
+            return {book, rating};
         } catch (error) {
             console.error('Error fetching ratings:', error);
             throw error;

@@ -63,5 +63,12 @@
 }
 
 .remove-book-form {
-    width: 100%;
+    display: flex;
+    width: 100%; /* Ensure the form stretches to its container */
+    gap: 10px; /* Optional: Add some spacing between the items */
+}
+
+.remove-book-form > * {
+    flex: 1; /* Each child inside the form will grow equally */
+    max-width: 100%; /* Prevent items from growing beyond the form size */
 }

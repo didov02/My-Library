@@ -20,6 +20,8 @@
 
     <!-- Rating form -->
     <form action="/ratings/<%= book.google_id %>/add" method="POST" class="rating-form">
+        <input type="hidden" name="bookId" value="<%= book.id %>">
+
         <div class="form-group">
             <label for="rating">Rating (1 to 5):</label>
             <select name="rating" id="rating" required>
@@ -39,7 +41,7 @@
     </form>
 
     <!-- Back button -->
-    <a href="/library/book/<%= book.google_id %>" class="btn btn-secondary">Back to Book</a>
+    <a href="/library/<%= username %>" class="btn btn-secondary">Back to Book</a>
 </div>
 </body>
 </html>

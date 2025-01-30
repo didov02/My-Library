@@ -28,10 +28,10 @@
                     </div>
                     <div class="book-actions">
                         <a href="/library/book/<%= book.google_id %>" class="btn btn-primary">See Book</a>
-                        <form action="/library/<%= user.id %>/<%= book.google_id %>?_method=DELETE" method="POST" style="display:inline;">
+                        <form action="/library/<%= user.id %>/<%= book.google_id %>?_method=DELETE" method="POST" class="remove-book-form">
                             <button type="submit" class="btn btn-secondary">Remove Book</button>
                         </form>
-                        <a href="/ratings/<%= book.google_id %>" class="btn btn-secondary">Rate and Comment Book</a>
+                        <a href="/ratings/view/<%= book.google_id %>" class="btn btn-secondary">Rate and Comment Book</a>
                     </div>
                 </div>
             <% }) %>
@@ -51,10 +51,10 @@
                     </div>
                     <div class="book-actions">
                         <a href="/library/book/<%= book.google_id %>" class="btn btn-primary">See Book</a>
-                        <form action="/library/<%= user.id %>/<%= book.google_id %>?_method=DELETE" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Remove Book</button>
+                        <form action="/library/<%= user.id %>/<%= book.google_id %>?_method=DELETE" method="POST" class="remove-book-form">
+                            <button type="submit" class="btn btn-secondary">Remove Book</button>
                         </form>
-                        <a href="/ratings/<%= book.google_id %>" class="btn btn-secondary">Rate and Comment Book</a>
+                        <a href="/ratings/view/<%= book.google_id %>" class="btn btn-secondary">Rate and Comment Book</a>
                     </div>
                 </div>
             <% }) %>
@@ -77,7 +77,7 @@
                         <form action="/library/<%= user.id %>/<%= book.google_id %>?_method=DELETE" method="POST" class="remove-book-form">
                             <button type="submit" class="btn btn-secondary">Remove Book</button>
                         </form>
-                        <a href="/ratings/<%= book.google_id %>" class="btn btn-secondary">Rate and Comment Book</a>
+                        <a href="/ratings/view/<%= book.google_id %>" class="btn btn-secondary">Rate and Comment Book</a>
                     </div>
                 </div>
             <% }) %>
