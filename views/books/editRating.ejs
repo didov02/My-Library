@@ -11,17 +11,20 @@
 <div class="container">
     <h1>Edit Your Rating and Review</h1>
 
-    <!-- Display the book title and cover -->
+    <% if (successMessage) { %>
+        <div class="alert alert-success"><%= successMessage %></div>
+    <% } %>
+
     <div class="book-info">
         <img src="<%= book.cover_image %>" alt="<%= book.title %>" class="book-cover">
         <h2><%= book.title %></h2>
         <p><strong>Author:</strong> <%= book.author_name %></p>
     </div>
 
-    <!-- Edit Rating Form -->
-    <form action="/ratings/<%= book.google_id %>/edit" method="POST" class="rating-form">
+    <form action="/ratings/edit/<%= book.google_id %>" method="POST" class="rating-form">
         <input type="hidden" name="bookId" value="<%= book.id %>">
         <input type="hidden" name="ratingId" value="<%= rating.id %>">
+        <input type="hidden" name="googleBookId" value="<%= googleBookId %>">
 
         <div class="form-group">
             <label for="rating">Rating (1 to 5):</label>
@@ -34,7 +37,7 @@
 
         <div class="form-group">
             <label for="review">Review:</label>
-            <textarea name="review" id="review" rows="5" placeholder="Edit your review here..." required><%= rating.review %></textarea>
+            <textarea name="review" id="review" rows="5" required><%= review %></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Update Rating</button>
@@ -42,7 +45,11 @@
 
     <!-- View All Ratings Button -->
     <div class="view-all-ratings">
-        <a href="/ratings/<%= book.google_id %>" class="btn btn-secondary">View All Ratings</a>
+        <!--<a href="/ratings/<%= book.google_id %>" class="btn btn-secondary">View All Ratings</a> -->
+        <form action="/ratings/<%= book.google_id %>" method="GET" style="display:inline;">
+            <input type="hidden" name="bookId" value="<%= book.id %>">
+            <button type="submit" class="btn btn-secondary">View All Ratings</button>
+        </form>
     </div>
 
     <!-- Back to Library Button -->

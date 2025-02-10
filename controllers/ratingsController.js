@@ -66,7 +66,8 @@ const ratingController = {
 
             const existingRating = await Rating.getRatingByUserAndBook(userId, bookId);
             if (existingRating) {
-                res.render('books/editRating', {book: book, rating: rating, username: username});
+                res.render('books/editRating', {book: book, rating: rating, review: existingRating.review,
+                    username: username, successMessage: null, googleBookId: bookId});
             } else {
                 res.render('books/addRating', {book: book, username: username});
             }
@@ -76,18 +77,44 @@ const ratingController = {
         }
     },
 
-    editRating: async (req, res) => {
-        const { ratingId } = req.params;
-        const { userId, rating } = req.body;
+    getAllRatingsByBook: async (req, res) => {
+        const { bookId } = req.params;
 
-        if (!ratingId || !userId || !rating) {
+        if (!bookId) {
+            return res.status(400).json({ message: 'Book ID is required.' });
+        }
+
+        try {
+            const decoded = jwt.verify(token, JWT_SECRET);
+            const userId = decoded.id;
+            const ratings = await Rating.getRatingsByBook(bookId);
+
+            // If there are ratings, render them on a page
+            res.render('ratings/viewRatings', { ratings, bookId });
+        } catch (error) {
+            console.error('Error fetching all ratings:', error);
+            res.status(500).json({ message: 'Failed to fetch ratings.', error: error.message });
+        }
+    },
+
+    editRating: async (req, res) => {
+        const { bookId, ratingId, rating, review, googleBookId } = req.body;
+        const token = req.cookies.token;
+
+        if (!bookId || !rating) {
             return res.status(400).json({ message: 'Rating ID, User ID, and new rating value are required.' });
         }
 
         try {
-            const updated = await Rating.updateRating(ratingId, userId, rating);
+            const decoded = verify(token, JWT_SECRET);
+            const userId = decoded.id;
+            const username = decoded.username;
+
+            const {book} = await Rating.getRatingByBookByUser(userId, googleBookId);
+            const updated = await Rating.editRating(userId, bookId , rating, review);
             if (updated) {
-                res.status(200).json({ message: 'Rating updated successfully.' });
+                res.render('books/editRating', {book: book, rating: rating, review: review,
+                    username: username, successMessage: 'Rating updated successfully!', googleBookId: bookId});
             } else {
                 res.status(404).json({ message: 'Rating not found or unauthorized.' });
             }

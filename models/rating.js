@@ -63,11 +63,23 @@ const Rating = {
         }
     },
 
-    editRating: async (userId, ratingId, rating) => {
+    getRatingsByBook: async (bookId) => {
+        try {
+            // Adjust the query based on your setup
+            const query = `SELECT * FROM ratings WHERE book_id = ?`;
+            const ratings = await db.query(query, [bookId]);
+
+            return ratings;
+        } catch (error) {
+            throw new Error('Failed to fetch ratings');
+        }
+    },
+
+    editRating: async (userId, ratingId, rating, review) => {
         try {
             const [result] = await db.promise().query(
-                "UPDATE Ratings SET rating = ? WHERE id = ? AND user_id = ?",
-                [rating, ratingId, userId]
+                "UPDATE Ratings SET rating = ?, review = ? WHERE book_id = ? AND user_id = ?",
+                [rating, review, ratingId, userId]
             );
             return result.affectedRows > 0; // Returns true if a row was updated
         } catch (error) {
