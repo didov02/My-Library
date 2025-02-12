@@ -34,7 +34,9 @@ app.use('/authors', authorRouter);
 app.use('/users', userRouter);
 
 app.use('/library', libraryBookRouter);
+/*
 app.use('/comments', commentRouter);
+*/
 app.use('/ratings', ratingRouter);
 app.use('/books', bookRouter);
 

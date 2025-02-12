@@ -9,31 +9,79 @@
 </head>
 <body>
 <div class="container">
-    <h1>Your Library</h1>
+    <div class="header">
+        <h1>Your Library</h1>
+        <a href="/" class="btn btn-primary back-button">Back to Home</a>
+    </div>
     <div class="books-container">
-        <% if (books.length > 0) { %>
-            <% books.forEach(book => { %>
+        <!-- Container for Want to Read -->
+        <div class="status-container">
+            <h2>Want To Read</h2>
+            <% books.filter(book => book.status === 'want_to_read').forEach(book => { %>
                 <div class="book">
                     <div class="book-info">
                         <img src="<%= book.cover_image %>" alt="<%= book.title %>">
                         <div class="book-details">
                             <h2><%= book.title %></h2>
                             <p><strong>Author:</strong> <%= book.author_name %></p>
-                            <p><strong>Status:</strong> <%= book.status %></p>
                         </div>
                     </div>
                     <div class="book-actions">
-                        <a href="/library/<%= book.google_id %>" class="btn btn-primary">See Book</a>
-                        <form action="/library/<%= user.id %>/<%= book.google_id %>?_method=DELETE" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Remove Book</button>
+                        <a href="/library/book/<%= book.google_id %>" class="btn btn-primary">See Book</a>
+                        <form action="/library/<%= user.id %>/<%= book.google_id %>?_method=DELETE" method="POST" class="remove-book-form">
+                            <button type="submit" class="btn btn-secondary">Remove Book</button>
                         </form>
-                        <a href="/ratings/<%= book.google_id %>" class="btn btn-secondary">Rate and Comment Book</a>
+                        <a href="/ratings/view/<%= book.google_id %>" class="btn btn-secondary">Rate and Comment Book</a>
                     </div>
                 </div>
             <% }) %>
-        <% } else { %>
-            <p>No books found in your library.</p>
-        <% } %>
+        </div>
+
+        <!-- Container for Currently Reading -->
+        <div class="status-container">
+            <h2>Currently Reading</h2>
+            <% books.filter(book => book.status === 'currently_reading').forEach(book => { %>
+                <div class="book">
+                    <div class="book-info">
+                        <img src="<%= book.cover_image %>" alt="<%= book.title %>">
+                        <div class="book-details">
+                            <h2><%= book.title %></h2>
+                            <p><strong>Author:</strong> <%= book.author_name %></p>
+                        </div>
+                    </div>
+                    <div class="book-actions">
+                        <a href="/library/book/<%= book.google_id %>" class="btn btn-primary">See Book</a>
+                        <form action="/library/<%= user.id %>/<%= book.google_id %>?_method=DELETE" method="POST" class="remove-book-form">
+                            <button type="submit" class="btn btn-secondary">Remove Book</button>
+                        </form>
+                        <a href="/ratings/view/<%= book.google_id %>" class="btn btn-secondary">Rate and Comment Book</a>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <!-- Container for Read -->
+        <div class="status-container">
+            <h2>Read</h2>
+            <% books.filter(book => book.status === 'read').forEach(book => { %>
+                <div class="book">
+                    <div class="book-info">
+                        <img src="<%= book.cover_image %>" alt="<%= book.title %>">
+                        <div class="book-details">
+                            <h2><%= book.title %></h2>
+                            <p><strong>Author:</strong> <%= book.author_name %></p>
+                        </div>
+                    </div>
+                    <div class="book-actions">
+                        <a href="/library/book/<%= book.google_id %>" class="btn btn-primary">See Book</a>
+                        <form action="/library/<%= user.id %>/<%= book.google_id %>?_method=DELETE" method="POST" class="remove-book-form">
+                            <button type="submit" class="btn btn-secondary">Remove Book</button>
+                        </form>
+                        <a href="/ratings/view/<%= book.google_id %>" class="btn btn-secondary">Rate and Comment Book</a>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
     </div>
 </div>
 </body>

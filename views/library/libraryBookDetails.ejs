@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Library</title>
+    <link rel="stylesheet" href="/public/css/global.css">
+    <link rel="stylesheet" href="/public/css/libraryBookDetails.css">
+</head>
+<body>
+<div class="container">
+    <div class="book-details-container">
+        <div class="book-cover">
+            <img src="<%= book.cover_image %>" alt="<%= book.title %>" class="image">
+        </div>
+        <div class="book-info">
+            <h1><%= book.title %></h1>
+            <div class="book-details">
+                <p><strong>Authors:</strong> <%= book.authors || 'No authors available' %></p>
+                <p><strong>Description:</strong> <%= book.description || 'No description available.' %></p>
+                <p><strong>Genres:</strong> <%= book.genre || 'No genre available' %></p>
+                <p><strong>Year of Publication:</strong> <%= book.year_of_publication %></p>
+
+                <%
+                const statusLabels = {
+                    want_to_read: "Want To Read",
+                    currently_reading: "Currently Reading",
+                    read: "Read"
+                };
+                %>
+
+                <p><strong>Status:</strong> <%= statusLabels[book.status] %></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <form id="update-status-form" method="POST" action="/library/book/ <%= book.google_id %>/update-status">
+            <div>
+                <label for="status">Update Status:</label>
+                <select name="status" id="status">
+                    <option value="want_to_read" <%= book.status === 'want_to_read' ? 'selected' : '' %>>To Read</option>
+                    <option value="currently_reading" <%= book.status === 'currently_reading' ? 'selected' : '' %>>Currently Reading</option>
+                    <option value="read" <%= book.status === 'read' ? 'selected' : '' %>>Read</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Status</button>
+        </form>
+
+        <a href="/library/<%= username %>" class="btn btn-secondary back-btn small">Back to Library</a>
+    </div>
+</div>
+</body>
+</html>

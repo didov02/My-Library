@@ -10,6 +10,6 @@ router.get('/search', booksController.searchBook);
 
 router.get('/:bookId', booksController.getBookDetails); 
 
-router.post('/save', booksController.saveBook);
+router.post('/:bookId', booksController.saveBook);
 
 module.exports = router;

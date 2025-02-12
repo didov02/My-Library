@@ -36,26 +36,24 @@ const Book = {
 
     saveBook: async (book, username) => {
         try {
-            const [exists] = await db.promise().query("SELECT google_id FROM Books WHERE google_id = ?", [book.id]);
+            const [exists] = await db.promise().query("SELECT google_id FROM Books WHERE google_id = ?", [book.google_id]);
 
             if (exists.length === 0) {
                 await db.promise().query(
-                    "INSERT INTO Books (google_id, title, author_name, genre, year_of_publication, description, cover_image) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO Books (title, author_name, genre, year_of_publication, description, cover_image, google_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
                     [
-                        book.id,
                         book.title,
-                        book.authors.join(', '),
-                        book.genre.join(', '),
-                        book.year_of_publication,
+                        book.authors[0],
+                        book.genre[0].split(0, 1),
+                        book.year_of_publication.split('-')[0],
                         book.description,
-                        book.cover_image
+                        book.cover_image,
+                        book.google_id
                     ]
                 );
             }
 
-            const wantToRead = 'want_to_read';
-
-            
+            const status = 'want_to_read';
 
             const [userResult] = await db.promise().query("SELECT id FROM Users WHERE username = ?", [username]);
 
@@ -65,7 +63,7 @@ const Book = {
 
             const userId = userResult[0].id;
 
-            const libraryBookResponse = await LibraryBook.saveBook(userId, book.id, wantToRead);
+            const libraryBookResponse = await LibraryBook.saveBook(userId, book.google_id, status);
 
             return libraryBookResponse;
         } catch (error) {
