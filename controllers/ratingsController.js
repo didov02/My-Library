@@ -1,15 +1,26 @@
 const Rating = require('../models/rating');
+const {verify} = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+// Make edit work and showcase for all ratings per book
 
 const ratingController = {
     addRating: async (req, res) => {
-        const { userId, bookId, rating } = req.body;
+        const { bookId, rating, review } = req.body;
 
-        if (!userId || !bookId || !rating) {
+        if (!bookId || !rating) {
             return res.status(400).json({ message: 'Missing required fields: userId, bookId, or rating.' });
         }
 
+        const token = req.cookies.token;
+
         try {
-            const ratingId = await Rating.addRating(userId, bookId, rating);
+            const decoded = verify(token, JWT_SECRET);
+            const userId = decoded.id;
+
+            const ratingId = await Rating.addRating(userId, bookId, rating, review);
             res.status(201).json({ message: 'Rating added successfully.', ratingId });
         } catch (error) {
             console.error('Error adding rating:', error);
@@ -38,16 +49,27 @@ const ratingController = {
         }
     },
 
-    getAllRatingsByBook: async (req, res) => {
+    getRatingForm: async (req, res) => {
         const { bookId } = req.params;
+        const token = req.cookies.token;
 
         if (!bookId) {
             return res.status(400).json({ message: 'Book ID is required.' });
         }
 
         try {
-            const ratings = await Rating.getRatingsByBookId(bookId);
-            res.status(200).json(ratings);
+            const decoded = verify(token, JWT_SECRET);
+            const username = decoded.username;
+            const userId = decoded.id;
+
+            const {book, rating} = await Rating.getRatingByBookByUser(userId, bookId);
+
+            const existingRating = await Rating.getRatingByUserAndBook(userId, bookId);
+            if (existingRating) {
+                res.render('books/editRating', {book: book, rating: rating, username: username});
+            } else {
+                res.render('books/addRating', {book: book, username: username});
+            }
         } catch (error) {
             console.error('Error fetching ratings:', error);
             res.status(500).json({ message: 'Failed to fetch ratings.', error: error.message });

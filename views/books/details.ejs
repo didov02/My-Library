@@ -6,14 +6,13 @@
     <title><%= book.title %> - Book Details</title>
     <link rel="stylesheet" href="/public/css/global.css">
     <link rel="stylesheet" href="/public/css/details.css">
+
 </head>
 <body>
     <div class="container">
-        <a href="/books/search?query=<%= query %>" class="btn btn-secondary back-btn">Back to search</a>
-
         <div class="book-details">
             <div class="book-cover">
-                <img src="<%= book.cover_image %>" alt="<%= book.title %>">
+                <img src="<%= book.cover_image %>" alt="<%= book.title %>" class="image">
             </div>
             <div class="book-info">
                 <h1><%= book.title %></h1>
@@ -24,8 +23,8 @@
             </div>
         </div>
 
-        <form id="add-to-library-form" method="POST" action="/books/save">
-            <input type="hidden" name="google_id" value="<%= book.id %>">
+        <form id="add-to-library-form" method="POST">
+            <input type="hidden" name="google_id" value="<%= book.google_id %>">
             <input type="hidden" name="title" value="<%= book.title %>">
             <input type="hidden" name="authors" value="<%= book.authors.join(', ') %>">
             <input type="hidden" name="genre" value="<%= book.genre.join(', ') %>">
@@ -34,6 +33,14 @@
             <input type="hidden" name="cover_image" value="<%= book.cover_image %>">
             <button type="submit" class="btn btn-primary">Add to Library</button>
         </form>
+
+        <a id="back-btn" class="btn btn-secondary back-btn">Back to search</a>
     </div>
 </body>
+
+<script>
+    document.getElementById("back-btn").addEventListener('click', () => {
+        history.back();
+    });
+</script>
 </html>

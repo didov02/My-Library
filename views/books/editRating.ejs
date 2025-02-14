@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Rating</title>
+    <link rel="stylesheet" href="/public/css/global.css">
+    <link rel="stylesheet" href="/public/css/ratings.css">
+</head>
+<body>
+<div class="container">
+    <h1>Edit Your Rating and Review</h1>
+
+    <!-- Display the book title and cover -->
+    <div class="book-info">
+        <img src="<%= book.cover_image %>" alt="<%= book.title %>" class="book-cover">
+        <h2><%= book.title %></h2>
+        <p><strong>Author:</strong> <%= book.author_name %></p>
+    </div>
+
+    <!-- Edit Rating Form -->
+    <form action="/ratings/<%= book.google_id %>/edit" method="POST" class="rating-form">
+        <input type="hidden" name="bookId" value="<%= book.id %>">
+        <input type="hidden" name="ratingId" value="<%= rating.id %>">
+
+        <div class="form-group">
+            <label for="rating">Rating (1 to 5):</label>
+            <select name="rating" id="rating" required>
+                <% for (let i = 1; i <= 5; i++) { %>
+                    <option value="<%= i %>" <%= rating.rating == i ? "selected" : "" %>><%= i %></option>
+                <% } %>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="review">Review:</label>
+            <textarea name="review" id="review" rows="5" placeholder="Edit your review here..." required><%= rating.review %></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Rating</button>
+    </form>
+
+    <!-- View All Ratings Button -->
+    <div class="view-all-ratings">
+        <a href="/ratings/<%= book.google_id %>" class="btn btn-secondary">View All Ratings</a>
+    </div>
+
+    <!-- Back to Library Button -->
+    <div class="back-to-library">
+        <a href="/library/<%= username %>" class="btn btn-secondary">Back to Library</a>
+    </div>
+</div>
+</body>
+</html>

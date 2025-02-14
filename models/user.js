@@ -38,7 +38,7 @@ const User = {
                     }
 
                     if (isPasswordValid) {
-                        return resolve({ username: user.username, email: user.email });
+                        return resolve({ id: user.id, username: user.username, email: user.email });
                     } else {
                         console.log('Invalid password');
                         return resolve(null);
