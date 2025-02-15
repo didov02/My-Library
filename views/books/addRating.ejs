@@ -21,6 +21,7 @@
     <!-- Rating form -->
     <form action="/ratings/<%= book.google_id %>/add" method="POST" class="rating-form">
         <input type="hidden" name="bookId" value="<%= book.id %>">
+        <input type="hidden" name="googleBookId" value="<%= book.google_id %>">
 
         <div class="form-group">
             <label for="rating">Rating (1 to 5):</label>

@@ -1,0 +1,95 @@
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.rating-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#rating {
+    width: 42%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    align-items: center;
+}
+
+/* Edit Form Button */
+.btn-edit-form {
+    height: 60px;
+    width: 100px;
+    background-color: #1976d2;  /* Same as .btn-primary */
+    color: #fff;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin: 5px auto;
+}
+
+.btn-edit-form:hover {
+    background-color: #004ba0;
+    transform: scale(1.05);
+}
+
+/* Secondary Buttons */
+.btn-edit {
+    flex: 0 1 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #6c757d;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-delete {
+    flex: 0 1 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff000f;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    transition: background 0.3s, transform 0.2s;
+}
+
+
+.btn-edit:hover {
+    background-color: #545b62;
+    transform: scale(1.05);
+}
+
