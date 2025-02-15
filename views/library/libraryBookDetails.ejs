@@ -34,8 +34,16 @@
         </div>
     </div>
 
+    <!-- View All Ratings Button -->
+    <div class="view-all-ratings">
+        <form action="/ratings/<%= bookId %>" method="GET" style="display:inline;">
+            <input type="hidden" name="bookId" value="<%= bookId %>">
+            <button type="submit" class="btn btn-edit">View All Ratings</button>
+        </form>
+    </div>
+
     <div class="form-container">
-        <form id="update-status-form" method="POST" action="/library/book/ <%= book.google_id %>/update-status">
+        <form id="update-status-form" method="POST" action="/library/book/<%= book.google_id %>/update-status">
             <div>
                 <label for="status">Update Status:</label>
                 <select name="status" id="status">
