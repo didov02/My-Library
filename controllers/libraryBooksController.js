@@ -1,4 +1,6 @@
 const LibraryBook = require('../models/libraryBook');
+const Rating = require('../models/rating');
+const Book = require('../models/book');
 const {verify} = require("jsonwebtoken");
 const jwt = require("jsonwebtoken");
 
@@ -47,6 +49,7 @@ const libraryBookController = {
 
     getLibraryBookDetails: async (req, res) => {
         const {bookId} = req.params;
+        const googleBookId = bookId;
 
         const token = req.cookies.token;
 
@@ -55,13 +58,15 @@ const libraryBookController = {
             const userId = decoded.id;
             const username = decoded.username;
 
-            const book = await LibraryBook.getLibraryBookDetails(userId, bookId);
+            const book = await LibraryBook.getLibraryBookDetails(userId, googleBookId);
+            const id = await Book.getBookIdByGoogleId(googleBookId);
+            const ratings = await Rating.getRatingsByBook(id);
 
             if (!book.google_id) {
                 return res.status(401).json({error: 'Book Not Found'});
             }
 
-            res.render('library/libraryBookDetails', {book, username});
+            res.render('library/libraryBookDetails', {book: book, username: username, ratings: ratings, bookId: id});
         } catch (err) {
             console.error(err);
             res.status(500).send('Error retrieving book details.');

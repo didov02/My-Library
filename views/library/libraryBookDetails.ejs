@@ -17,7 +17,7 @@
             <h1><%= book.title %></h1>
             <div class="book-details">
                 <p><strong>Authors:</strong> <%= book.authors || 'No authors available' %></p>
-                <p><strong>Description:</strong> <%= book.description || 'No description available.' %></p>
+                <p><strong>Description:</strong> <%- book.description || 'No description available.' %></p>
                 <p><strong>Genres:</strong> <%= book.genre || 'No genre available' %></p>
                 <p><strong>Year of Publication:</strong> <%= book.year_of_publication %></p>
 
@@ -35,7 +35,7 @@
     </div>
 
     <div class="form-container">
-        <form id="update-status-form" method="POST" action="/library/book/ <%= book.google_id %>/update-status">
+        <form id="update-status-form" method="POST" action="/library/book/<%= book.google_id %>/update-status">
             <div>
                 <label for="status">Update Status:</label>
                 <select name="status" id="status">
@@ -47,8 +47,17 @@
             <button type="submit" class="btn btn-primary">Update Status</button>
         </form>
 
+        <!-- View All Ratings Button -->
+        <div class="view-all-ratings">
+            <form action="/ratings/<%= bookId %>" method="GET" style="display:inline;">
+                <input type="hidden" name="bookId" value="<%= bookId %>">
+                <button type="submit" class="btn btn-secondary">View All Ratings</button>
+            </form>
+        </div>
+
         <a href="/library/<%= username %>" class="btn btn-secondary back-btn small">Back to Library</a>
     </div>
 </div>
+
 </body>
 </html>
