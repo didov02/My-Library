@@ -1,4 +1,5 @@
 const Rating = require('../models/rating');
+const Book = require('../models/book');
 const {verify} = require("jsonwebtoken");
 const jwt = require("jsonwebtoken");
 
@@ -8,7 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const ratingController = {
     addRating: async (req, res) => {
-        const { bookId, rating, review } = req.body;
+        const { googleBookId, bookId, rating, review } = req.body;
 
         if (!bookId || !rating) {
             return res.status(400).json({ message: 'Missing required fields: userId, bookId, or rating.' });
@@ -21,7 +22,7 @@ const ratingController = {
             const userId = decoded.id;
 
             const ratingId = await Rating.addRating(userId, bookId, rating, review);
-            res.status(201).json({ message: 'Rating added successfully.', ratingId });
+            res.redirect(`/ratings/view/${googleBookId}?success=true`);
         } catch (error) {
             console.error('Error adding rating:', error);
             res.status(500).json({ message: 'Failed to add rating.', error: error.message });
@@ -30,16 +31,20 @@ const ratingController = {
 
     deleteRating: async (req, res) => {
         const { ratingId } = req.params;
-        const { userId } = req.body;
+        const token = req.cookies.token;
 
-        if (!ratingId || !userId) {
+        if (!ratingId) {
             return res.status(400).json({ message: 'Rating ID and User ID are required.' });
         }
 
         try {
+            const decoded = verify(token, JWT_SECRET);
+            const userId = decoded.id;
+            const username = decoded.username;
+
             const deleted = await Rating.deleteRating(ratingId, userId);
             if (deleted) {
-                res.status(200).json({ message: 'Rating deleted successfully.' });
+                return res.redirect(`/library/${username}`);
             } else {
                 res.status(404).json({ message: 'Rating not found or unauthorized.' });
             }
@@ -85,12 +90,10 @@ const ratingController = {
         }
 
         try {
-            const decoded = jwt.verify(token, JWT_SECRET);
-            const userId = decoded.id;
             const ratings = await Rating.getRatingsByBook(bookId);
+            const bookDetails = await Book.getBookDetailsFromDB(bookId);
 
-            // If there are ratings, render them on a page
-            res.render('ratings/viewRatings', { ratings, bookId });
+            res.render('books/allRatings', { ratings: ratings, book: bookDetails });
         } catch (error) {
             console.error('Error fetching all ratings:', error);
             res.status(500).json({ message: 'Failed to fetch ratings.', error: error.message });

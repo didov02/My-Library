@@ -11,7 +11,7 @@ router.get('/view/:bookId', ratingsController.getRatingForm);
 
 router.post('/:bookId/add', ratingsController.addRating);
 
-router.delete('/:bookId/:ratingId', ratingsController.deleteRating);
+router.delete('/delete/:ratingId', ratingsController.deleteRating);
 
 router.post('/edit/:ratingId/', ratingsController.editRating);
 

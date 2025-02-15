@@ -65,9 +65,15 @@ const Rating = {
 
     getRatingsByBook: async (bookId) => {
         try {
-            // Adjust the query based on your setup
-            const query = `SELECT * FROM ratings WHERE book_id = ?`;
-            const ratings = await db.query(query, [bookId]);
+            const [ratings] = await db.promise().query(`
+            SELECT 
+                r.rating, 
+                r.review,  
+                DATE_FORMAT(r.created_at, '%Y-%m-%d') as created_at, 
+                u.username 
+            FROM ratings r
+            JOIN users u ON r.user_id = u.id
+            WHERE r.book_id = ?`, [bookId]);
 
             return ratings;
         } catch (error) {
@@ -81,7 +87,7 @@ const Rating = {
                 "UPDATE Ratings SET rating = ?, review = ? WHERE book_id = ? AND user_id = ?",
                 [rating, review, ratingId, userId]
             );
-            return result.affectedRows > 0; // Returns true if a row was updated
+            return result.affectedRows > 0;
         } catch (error) {
             console.error('Error updating rating:', error);
             throw error;

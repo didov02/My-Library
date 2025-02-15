@@ -6,7 +6,6 @@ const authorRouter = require('./routes/authorsRoutes');
 const userRouter = require('./routes/usersRoutes');
 const bookRouter = require('./routes/booksRoutes');
 const libraryBookRouter = require('./routes/libraryBooksRoutes');
-const commentRouter = require('./routes/commentsRoutes');
 const ratingRouter = require('./routes/ratingsRoutes');
 const path = require('path');
 
@@ -34,9 +33,6 @@ app.use('/authors', authorRouter);
 app.use('/users', userRouter);
 
 app.use('/library', libraryBookRouter);
-/*
-app.use('/comments', commentRouter);
-*/
 app.use('/ratings', ratingRouter);
 app.use('/books', bookRouter);
 

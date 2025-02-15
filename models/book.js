@@ -95,7 +95,26 @@ const Book = {
             console.error('Error fetching book details from Google Books API:', error);
             throw error;
         }
+    },
+
+    getBookDetailsFromDB: async (bookId) => {
+        try {
+            const [book] = await db.promise().query(
+                "SELECT id, google_id, title, author_name, genre FROM Books WHERE id = ?",
+                [bookId]
+            );
+
+            if (book.length === 0) {
+                throw new Error('Book not found in the database.');
+            }
+
+            return book[0];
+        } catch (error) {
+            console.error('Error fetching book details from database:', error);
+            throw error;
+        }
     }
+
 }
 
 module.exports = Book;
