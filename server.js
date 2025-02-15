@@ -8,10 +8,13 @@ const bookRouter = require('./routes/booksRoutes');
 const libraryBookRouter = require('./routes/libraryBooksRoutes');
 const ratingRouter = require('./routes/ratingsRoutes');
 const path = require('path');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ server });
 
 const cookieParser = require('cookie-parser');
-
-const app = express();
 
 const port = process.env.PORT || 8081;
 
@@ -36,5 +39,22 @@ app.use('/library', libraryBookRouter);
 app.use('/ratings', ratingRouter);
 app.use('/books', bookRouter);
 
+wss.on('connection', (ws) => {
+    console.log('New WebSocket connection established.');
+    ws.on('message', (message) => {
+        console.log('Received:', message);
+    });
+});
 
-app.listen(port);
+app.locals.broadcast = (data) => {
+    console.log('Broadcasting data to WebSocket clients:', data);
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(data));
+        }
+    });
+};
+
+server.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});

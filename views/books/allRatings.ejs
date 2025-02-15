@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ratings for Book</title>
-    <link rel="stylesheet" href="/public/css/global.css">
-    <link rel="stylesheet" href="/public/css/ratings.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ratings for Book</title>
+  <link rel="stylesheet" href="/public/css/global.css">
+  <link rel="stylesheet" href="/public/css/ratings.css">
 </head>
 <body>
-<div class="container">
+  <div class="container">
     <div class="book-description">
-        <h2><%= book.title %></h2>
-        <p><strong>Author:</strong> <%= book.author_name %></p>
-        <p><strong>Genre:</strong> <%= book.genre %></p>
+      <h2><%= book.title %></h2>
+      <p><strong>Author:</strong> <%= book.author_name %></p>
+      <p><strong>Genre:</strong> <%= book.genre %></p>
     </div>
 
     <h1>Ratings for this Book</h1>
 
     <% if (ratings.length > 0) { %>
-        <div class="ratings-list">
-            <% ratings.forEach(rating => { %>
-                <div class="rating-item">
-                    <p><strong>User ID:</strong> <%= rating.username %></p>
-                    <p><strong>Rating:</strong> <%= rating.rating %> / 5</p>
-                    <p><strong>Review:</strong> <%= rating.review %></p>
-                    <p><strong>Created At:</strong> <%= rating.created_at %></p>
-                    <hr>
-                </div>
-            <% }) %>
-        </div>
+      <div class="ratings-list">
+        <% ratings.forEach(rating => { %>
+          <div class="rating-item" id="rating-<%= rating.id %>">
+            <p><strong>User ID:</strong> <%= rating.username %></p>
+            <p><strong>Rating:</strong> <%= rating.rating %> / 5</p>
+            <p><strong>Review:</strong> <%= rating.review %></p>
+            <p><strong>Created At:</strong> <%= rating.created_at %></p>
+            <hr>
+          </div>
+        <% }) %>
+      </div>
     <% } else { %>
-        <p>No ratings for this book yet.</p>
+      <div class="ratings-list"></div>
+      <p>No ratings for this book yet.</p>
     <% } %>
 
     <a href="/library/book/<%= book.google_id %>" class="btn btn-primary">Go to Book</a>
-</div>
+  </div>
+  <script>
+    window.currentBookId = "<%= book.id %>";
+  </script>
+  <script src="/public/scripts/rating.js"></script>
 </body>
 </html>
