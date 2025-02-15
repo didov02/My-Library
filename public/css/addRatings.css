@@ -7,6 +7,19 @@
     margin-bottom: 20px;
 }
 
+.selector {
+    appearance: none;
+    background-color: #21d3a2 !important;
+    color: black;
+    border: 3px solid rgba(0, 1, 42, 0.9) !important;
+    border-radius: 8px;
+    padding: 16px 14px;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
 .book-info {
     display: flex;
     flex-direction: column;   /* Align content in a column */
@@ -33,11 +46,11 @@
     width: 100%;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    background-color: #21d3a2;
+    border: 3px solid rgba(0, 1, 42, 0.9);
     font-size: 14px;
-    resize: vertical;
+    resize: unset;
 }
-
 .review-section textarea {
     min-height: 120px;
     max-height: 180px;
