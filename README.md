@@ -17,9 +17,3 @@
 - View book details, including:
   - **Comments** from users.
   - **Ratings**.
-- Filter and sort books by:
-  - Genre.
-  - Rating (ascending or descending).
-  - Author.
-  - Year of publication.
-  - Books read by friends.
