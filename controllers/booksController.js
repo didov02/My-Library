@@ -1,5 +1,5 @@
 const Book = require('../models/book');
-const db = require('../db')
+const db = require('../db');
 
 const booksController = {
     searchBook: async (req, res) => {
@@ -59,7 +59,7 @@ const booksController = {
             await Book.saveBook(book, username);
 
             const message = 'Book successfully added to your library!';
-            return res.redirect(`/books/${googleIdFromRoute}`);
+            return res.redirect(`/library/${username}`);
         } catch (err) {
             console.error('Error saving the book:', err);
             const message = 'Failed to save the book. Please try again.';
