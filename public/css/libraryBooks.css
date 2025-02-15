@@ -77,6 +77,8 @@
 .book img {
     max-width: 120px;
     height: auto;
+    border: rgba(0, 1, 42, 0.9) solid 3px;
+    border-radius: 10px;
 }
 
 .book-details {

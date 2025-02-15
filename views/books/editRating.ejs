@@ -40,7 +40,7 @@
                 <div class="rating-submit-container">
                     <div class="form-group rating-section">
                         <label for="rating">Rating (1 to 5):</label>
-                        <select name="rating" id="rating" required>
+                        <select class="selector" name="rating" id="rating" required>
                             <% for (let i = 1; i <= 5; i++) { %>
                                 <option value="<%= i %>" <%= rating.rating == i ? "selected" : "" %>><%= i %></option>
                             <% } %>
