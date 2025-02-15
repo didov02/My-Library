@@ -2,10 +2,9 @@ const Rating = require('../models/rating');
 const Book = require('../models/book');
 const {verify} = require("jsonwebtoken");
 const jwt = require("jsonwebtoken");
+// const { broadcast } = require('../wsServer');
 
 const JWT_SECRET = process.env.JWT_SECRET;
-
-// Make edit work and showcase for all ratings per book
 
 const ratingController = {
     addRating: async (req, res) => {
@@ -22,6 +21,21 @@ const ratingController = {
             const userId = decoded.id;
 
             const ratingId = await Rating.addRating(userId, bookId, rating, review);
+            const timeCreated = await Rating.getTimeCreated(ratingId);
+
+            const broadcastData = {
+                action: 'add',
+                bookId,
+                ratingId,
+                rating,
+                review,
+                username: decoded.username,
+                createdAt: timeCreated,
+            };
+            console.log('Broadcasting new rating:', broadcastData);
+            
+            req.app.locals.broadcast(broadcastData);
+
             res.redirect(`/ratings/view/${googleBookId}?success=true`);
         } catch (error) {
             console.error('Error adding rating:', error);
@@ -41,9 +55,21 @@ const ratingController = {
             const decoded = verify(token, JWT_SECRET);
             const userId = decoded.id;
             const username = decoded.username;
+            const bookId = await Rating.getBookId(ratingId);
 
             const deleted = await Rating.deleteRating(ratingId, userId);
             if (deleted) {
+                const broadcastData = {
+                    action: 'delete',
+                    ratingId,
+                    bookId,
+                    username,
+                };
+
+                console.log('Broadcasting new rating:', broadcastData);
+                
+                req.app.locals.broadcast(broadcastData);
+
                 return res.redirect(`/library/${username}`);
             } else {
                 res.status(404).json({ message: 'Rating not found or unauthorized.' });
@@ -116,6 +142,16 @@ const ratingController = {
             const {book} = await Rating.getRatingByBookByUser(userId, googleBookId);
             const updated = await Rating.editRating(userId, bookId , rating, review);
             if (updated) {
+                req.app.locals.broadcast({
+                    action: 'edit',
+                    bookId,
+                    ratingId,
+                    rating,
+                    review,
+                    username,
+                    updatedAt: new Date(),
+                  });
+
                 res.render('books/editRating', {book: book, rating: rating, review: review,
                     username: username, successMessage: 'Rating updated successfully!', googleBookId: bookId});
             } else {

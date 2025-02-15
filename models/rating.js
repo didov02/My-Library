@@ -92,6 +92,32 @@ const Rating = {
             console.error('Error updating rating:', error);
             throw error;
         }
+    },
+
+    getTimeCreated: async (ratingId) => {
+        try {
+            const [result] = await db.promise().query(
+                "SELECT created_at FROM Ratings WHERE id = ?",
+                [ratingId]
+            );
+            return result[0].created_at;
+        } catch (error) {
+            console.error('Error fetching rating:', error);
+            throw error;
+        }
+    },
+
+    getBookId: async (ratingId) => {
+        try {
+            const [result] = await db.promise().query(
+                "SELECT book_id FROM Ratings WHERE id = ?",
+                [ratingId]
+            );
+            return result[0].book_id;
+        } catch (error) {
+            console.error('Error fetching rating:', error);
+            throw error;
+        }
     }
 }
 
