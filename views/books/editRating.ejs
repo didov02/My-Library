@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Rating</title>
     <link rel="stylesheet" href="/public/css/global.css">
-    <link rel="stylesheet" href="/public/css/ratings.css">
+    <link rel="stylesheet" href="/public/css/editRatings.css">
 </head>
 <body>
 <div class="container">
-    <h1>Edit Your Rating and Review</h1>
+    <h1>Edit Your Rating</h1>
 
     <% if (successMessage) { %>
         <div class="alert alert-success"><%= successMessage %></div>
@@ -21,50 +21,74 @@
         <p><strong>Author:</strong> <%= book.author_name %></p>
     </div>
 
-    <h3>Both rating and review are required to update!</h3>
+    <h3>Both fields are required to update!</h3>
+
     <div class="edit-form-group">
-        <form action="/ratings/edit/<%= book.google_id %>" method="POST" class="rating-form">
-            <input type="hidden" name="bookId" value="<%= book.id %>">
-            <input type="hidden" name="ratingId" value="<%= rating.id %>">
-            <input type="hidden" name="googleBookId" value="<%= book.google_id %>">
+        <div class="review-rating-container">
+            <form action="/ratings/edit/<%= book.google_id %>" method="POST" class="rating-form">
+                <input type="hidden" name="bookId" value="<%= book.id %>">
+                <input type="hidden" name="ratingId" value="<%= rating.id %>">
+                <input type="hidden" name="googleBookId" value="<%= book.google_id %>">
 
-            <div class="form-group">
-                <label for="rating">Rating (1 to 5):</label>
-                <select name="rating" id="rating" required>
-                    <% for (let i = 1; i <= 5; i++) { %>
-                        <option value="<%= i %>" <%= rating.rating == i ? "selected" : "" %>><%= i %></option>
-                    <% } %>
-                </select>
-            </div>
+                <!-- Review Section -->
+                <div class="form-group review-section">
+                    <label for="review">Review:</label>
+                    <textarea name="review" id="review" rows="5" required><%= review %></textarea>
+                </div>
 
-            <div class="form-group">
-                <label for="review">Review:</label>
-                <textarea name="review" id="review" rows="5" required><%= review %></textarea>
-            </div>
+                <!-- Rating and Submit Section -->
+                <div class="rating-submit-container">
+                    <div class="form-group rating-section">
+                        <label for="rating">Rating (1 to 5):</label>
+                        <select class="selector" name="rating" id="rating" required>
+                            <% for (let i = 1; i <= 5; i++) { %>
+                                <option value="<%= i %>" <%= rating.rating == i ? "selected" : "" %>><%= i %></option>
+                            <% } %>
+                        </select>
+                    </div>
 
-            <button type="submit" class="btn btn-edit-form">Update Rating</button>
-        </form>
+                    <button type="submit" class="btn btn-edit-form">Update Rating</button>
+                </div>
+            </form>
+        </div>
 
         <div class="buttons-container">
+            <div class="back-to-library">
+                <a href="/library/<%= username %>" class="btn btn-edit">Back</a>
+            </div>
+
             <div class="view-all-ratings">
                 <form action="/ratings/<%= book.id %>" method="GET" style="display:inline;">
                     <input type="hidden" name="bookId" value="<%= book.id %>">
-                    <button type="submit" class="btn btn-edit">View All Ratings</button>
+                    <button type="submit" class="btn btn-edit">All Ratings</button>
                 </form>
             </div>
 
-            <div class="back-to-library">
-                <a href="/library/<%= username %>" class="btn btn-edit">Back to Library</a>
-            </div>
-
-            <form action="/ratings/delete/<%= rating.id %>?_method=DELETE" method="POST"
-                   onsubmit="return confirm('Are you sure you want to delete this rating?');">
+            <form action="/ratings/delete/<%= rating.id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to delete this rating?');">
                 <input type="hidden" name="ratingId" value="<%= rating.id %>">
-
                 <button type="submit" class="btn btn-delete">Delete Rating</button>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const alertBox = document.querySelector(".alert-success");
+        const container = document.querySelector(".container");
+
+        if (alertBox) {
+            setTimeout(() => {
+                alertBox.classList.add("hide");
+
+                setTimeout(() => {
+                    alertBox.remove();
+                    container.style.height = "auto";
+                }, 500);
+            }, 2000);
+        }
+    });
+</script>
+
 </body>
 </html>

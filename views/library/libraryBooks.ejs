@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/public/css/libraryBooks.css">
 </head>
 <body>
-<div class="container">
+<div class="body-container">
     <div class="header">
         <h1>Your Library</h1>
         <a href="/" class="btn btn-primary back-button">Return to Home</a>
@@ -16,7 +16,7 @@
     <div class="books-container">
         <!-- Container for Want to Read -->
         <div class="status-container">
-            <h2>Want To Read</h2>
+            <h2 class="heading-primary">Want To Read</h2>
             <% books.filter(book => book.status === 'want_to_read').forEach(book => { %>
                 <div class="book">
                     <div class="book-info">
@@ -39,7 +39,7 @@
 
         <!-- Container for Currently Reading -->
         <div class="status-container">
-            <h2>Currently Reading</h2>
+            <h2 class="heading-primary">Currently Reading</h2>
             <% books.filter(book => book.status === 'currently_reading').forEach(book => { %>
                 <div class="book">
                     <div class="book-info">
@@ -62,7 +62,7 @@
 
         <!-- Container for Read -->
         <div class="status-container">
-            <h2>Read</h2>
+            <h2 class="heading-primary">Read</h2>
             <% books.filter(book => book.status === 'read').forEach(book => { %>
                 <div class="book">
                     <div class="book-info">

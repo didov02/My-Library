@@ -97,6 +97,23 @@ const Book = {
         }
     },
 
+    getBookIdByGoogleId: async (googleId) => {
+        try {
+            const [rows] = await db.promise().query(
+                "SELECT id FROM Books WHERE google_id = ?", [googleId]
+            );
+
+            if (rows.length === 0) {
+                throw new Error('Book not found in the database.');
+            }
+
+            return rows[0].id;
+        } catch (error) {
+            console.error('Error fetching book_id details from database:', error);
+            throw error;
+        }
+    },
+
     getBookDetailsFromDB: async (bookId) => {
         try {
             const [book] = await db.promise().query(

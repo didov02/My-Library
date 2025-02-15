@@ -50,7 +50,7 @@ const Rating = {
             const book = bookResult[0];
 
             const [ratingResult] = await db.promise().query(
-                "SELECT r.id, r.rating, r.created_at, u.username FROM Ratings r " +
+                "SELECT r.id,r.book_id, r.rating, r.created_at, u.username FROM Ratings r " +
                 "JOIN Users u ON r.user_id = u.id WHERE r.book_id = ? and u.id = ? ORDER BY r.created_at DESC",
                 [book.id, userId]
             );

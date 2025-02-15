@@ -15,9 +15,12 @@
                 <img src="<%= book.cover_image %>" alt="<%= book.title %>" class="image">
             </div>
             <div class="book-info">
-                <h1><%= book.title %></h1>
+                <div class="title-back-button">
+                    <h1><%= book.title %></h1>
+                    <a id="back-btn" class="btn btn-secondary back-btn">Back to Search</a>
+                </div>
                 <p><strong>Authors:</strong> <%= book.authors || 'No authors available' %></p>
-                <p><strong>Description:</strong> <%= book.description || 'No description available.' %></p>
+                <p><strong>Description:</strong> <%- book.description || 'No description available.' %></p>
                 <p><strong>Genres:</strong> <%= book.genre || 'No genre available' %></p>
                 <p><strong>Year of Publication:</strong> <%= book.year_of_publication %></p>
             </div>
@@ -33,8 +36,6 @@
             <input type="hidden" name="cover_image" value="<%= book.cover_image %>">
             <button type="submit" class="btn btn-primary">Add to Library</button>
         </form>
-
-        <a id="back-btn" class="btn btn-secondary back-btn">Back to search</a>
     </div>
 </body>
 

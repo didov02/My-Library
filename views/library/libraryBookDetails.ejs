@@ -17,7 +17,7 @@
             <h1><%= book.title %></h1>
             <div class="book-details">
                 <p><strong>Authors:</strong> <%= book.authors || 'No authors available' %></p>
-                <p><strong>Description:</strong> <%= book.description || 'No description available.' %></p>
+                <p><strong>Description:</strong> <%- book.description || 'No description available.' %></p>
                 <p><strong>Genres:</strong> <%= book.genre || 'No genre available' %></p>
                 <p><strong>Year of Publication:</strong> <%= book.year_of_publication %></p>
 
@@ -35,20 +35,29 @@
     </div>
 
     <div class="form-container">
-        <form id="update-status-form" method="POST" action="/library/book/ <%= book.google_id %>/update-status">
+        <form id="update-status-form" method="POST" action="/library/book/<%= book.google_id %>/update-status">
             <div>
-                <label for="status">Update Status:</label>
-                <select name="status" id="status">
-                    <option value="want_to_read" <%= book.status === 'want_to_read' ? 'selected' : '' %>>To Read</option>
+                <label>Change Status: </label>
+                <select class="selector" name="status" id="status" onchange="document.getElementById('update-status-form').submit();">
+                    <option value="want_to_read" <%= book.status === 'want_to_read' ? 'selected' : '' %>>Want To Read</option>
                     <option value="currently_reading" <%= book.status === 'currently_reading' ? 'selected' : '' %>>Currently Reading</option>
                     <option value="read" <%= book.status === 'read' ? 'selected' : '' %>>Read</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Update Status</button>
         </form>
+
+
+        <!-- View All Ratings Button -->
+        <div class="view-all-ratings">
+            <form action="/ratings/<%= bookId %>" method="GET" style="display:inline;">
+                <input type="hidden" name="bookId" value="<%= bookId %>">
+                <button type="submit" class="btn btn-secondary">View All Ratings</button>
+            </form>
+        </div>
 
         <a href="/library/<%= username %>" class="btn btn-secondary back-btn small">Back to Library</a>
     </div>
 </div>
+
 </body>
 </html>

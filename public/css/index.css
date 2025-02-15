@@ -6,3 +6,36 @@
 .welcome-message p {
     margin-bottom: 20px;
 }
+
+.search-container {
+    width: 95%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#search-bar {
+    width: 100%;          /* Makes the input take up the full width of the container */
+    padding: 10px;        /* Add padding inside the input for space around text */
+    border: 1px solid #ccc; /* Border to distinguish the input */
+    border-radius: 8px;   /* Optional: for rounded corners */
+    box-sizing: border-box; /* Makes sure padding is included in the width */
+}
+
+.search-container form {
+    width: 100%; /* Ensures the form takes up the full width of the container */
+    margin: 0;   /* Remove any default margins */
+}
+
+.index-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    padding: 30px;
+    max-width: 1200px;
+    background-color: rgba(34, 37, 47, 0.9);
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
