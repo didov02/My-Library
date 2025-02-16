@@ -4,13 +4,17 @@ const db = require('../db');
 const booksController = {
     searchBook: async (req, res) => {
         const {query} = req.query;
+        const page = parseInt(req.query.page) || 1;
+        const maxResults = 10;
+ 
         if (!query) {
             return res.status(400).json({error: 'Search query is required'});
         }
 
         try {
-            const books = await Book.searchBook(query);
-            res.render('books/search', {query, results: books});
+            const { books, totalItems } = await Book.searchBook(query, page, maxResults);
+            const totalPages = Math.ceil(totalItems / maxResults);
+            res.render('books/search', {query, results: books, currentPage: page, totalPages});
         } catch (err) {
             console.error('Error searching for books:', err);
             res.status(500).json({error: 'Failed to fetch books', details: err.message});

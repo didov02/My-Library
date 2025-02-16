@@ -29,6 +29,18 @@
                 <p>No books found for your search.</p>
             <% } %>
         </div>
+        <div class="pagination">
+            <% if (currentPage > 1) { %>
+                <a href="/books/search?query=<%= query %>&page=<%= currentPage - 1 %>" class="btn btn-secondary">Previous</a>
+            <% } %>
+        
+            <span>Page <%= currentPage %> of <%= totalPages %></span>
+        
+            <% if (currentPage < totalPages) { %>
+                <a href="/books/search?query=<%= query %>&page=<%= currentPage + 1 %>" class="btn btn-secondary">Next</a>
+            <% } %>
+        </div>
+        
     </div>
 </body>
 </html>
