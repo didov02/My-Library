@@ -87,6 +87,7 @@ const Book = {
             });
 
             const book = response.data.volumeInfo;
+            const accessInfo = response.data.accessInfo || {};
 
             return {
                 id: bookId,
@@ -96,6 +97,7 @@ const Book = {
                 year_of_publication: book.publishedDate || 'Unknown',
                 description: book.description || 'No description available.',
                 cover_image: book.imageLinks?.thumbnail || 'No cover image available.',
+                downloadLink: accessInfo?.pdf?.downloadLink || null,
             };
         } catch (error) {
             console.error('Error fetching book details from Google Books API:', error);
