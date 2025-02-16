@@ -55,7 +55,7 @@ const LibraryBook = {
             );
 
             if (userResult.length === 0) {
-                throw new Error('User not found');
+                throw new Error('User not found.');
             }
 
             const userId = userResult[0].id;
@@ -78,13 +78,13 @@ const LibraryBook = {
     getLibraryBookDetails: async (userId, bookId) => {
         try {
             const [bookDetails] = await db.promise().query(
-                `select b.google_id, b.title, b.author_name, b.genre, b.year_of_publication, b.description, b.cover_image, lb.status
-             from LibraryBooks lb join books b on lb.book_id = b.google_id
-             where lb.user_id = ? and lb.book_id = ?`, [userId, bookId]
+                `SELECT b.google_id, b.title, b.author_name, b.genre, b.year_of_publication, b.description, b.cover_image, lb.status
+                FROM LibraryBooks lb JOIN books b on lb.book_id = b.google_id
+                WHERE lb.user_id = ? and lb.book_id = ?`, [userId, bookId]
             );
 
             if (bookDetails.length === 0) {
-                return {message: "Book details not found"};
+                return {message: "Book details not found."};
             }
 
             return bookDetails[0];

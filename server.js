@@ -2,7 +2,6 @@ require('dotenv').config();
 const methodOverride = require('method-override');
 const express = require('express');
 const indexRouter = require('./routes/index')
-const authorRouter = require('./routes/authorsRoutes');
 const userRouter = require('./routes/usersRoutes');
 const bookRouter = require('./routes/booksRoutes');
 const libraryBookRouter = require('./routes/libraryBooksRoutes');
@@ -38,7 +37,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
-app.use('/authors', authorRouter);
 app.use('/users', userRouter);
 
 app.use('/library', libraryBookRouter);
