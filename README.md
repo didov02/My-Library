@@ -12,6 +12,7 @@
   - To your collection of books you have read.
 - **Remove Books** from your library.
 - **Rate and Comment** on books in your library.
+- **Download Books**
 
 ### Viewing and Filtering
 - View book details, including:
