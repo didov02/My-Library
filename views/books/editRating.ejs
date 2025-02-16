@@ -30,13 +30,11 @@
                 <input type="hidden" name="ratingId" value="<%= rating.id %>">
                 <input type="hidden" name="googleBookId" value="<%= book.google_id %>">
 
-                <!-- Review Section -->
                 <div class="form-group review-section">
                     <label for="review">Review:</label>
                     <textarea name="review" id="review" rows="5" required><%= review %></textarea>
                 </div>
 
-                <!-- Rating and Submit Section -->
                 <div class="rating-submit-container">
                     <div class="form-group rating-section">
                         <label for="rating">Rating (1 to 5):</label>
@@ -89,6 +87,5 @@
         }
     });
 </script>
-
 </body>
 </html>

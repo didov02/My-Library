@@ -36,6 +36,10 @@
             <input type="hidden" name="cover_image" value="<%= book.cover_image %>">
             <button type="submit" class="btn btn-primary">Add to Library</button>
         </form>
+
+        <% if (book.downloadLink) { %>
+            <a href="<%= book.downloadLink %>" class="btn btn-primary" target="_blank">Download Book</a>
+        <% } %>
     </div>
 </body>
 

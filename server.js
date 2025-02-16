@@ -2,7 +2,6 @@ require('dotenv').config();
 const methodOverride = require('method-override');
 const express = require('express');
 const indexRouter = require('./routes/index')
-const authorRouter = require('./routes/authorsRoutes');
 const userRouter = require('./routes/usersRoutes');
 const bookRouter = require('./routes/booksRoutes');
 const libraryBookRouter = require('./routes/libraryBooksRoutes');
@@ -11,8 +10,14 @@ const path = require('path');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({ server });
+const { Server } = require('socket.io');
+
+const io = new Server(server, {
+    cors: {
+        origin: '*',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    }
+});
 
 const cookieParser = require('cookie-parser');
 
@@ -32,28 +37,25 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
-app.use('/authors', authorRouter);
 app.use('/users', userRouter);
 
 app.use('/library', libraryBookRouter);
 app.use('/ratings', ratingRouter);
 app.use('/books', bookRouter);
 
-wss.on('connection', (ws) => {
-    console.log('New WebSocket connection established.');
-    ws.on('message', (message) => {
-        console.log('Received:', message);
+io.on('connection', (socket) => {
+    console.log('New client connected:', socket.id);
+
+    socket.on('message', (message) => {
+        console.log('Received message from client:', message);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected:', socket.id);
     });
 });
 
-app.locals.broadcast = (data) => {
-    console.log('Broadcasting data to WebSocket clients:', data);
-    wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify(data));
-        }
-    });
-};
+app.set('io', io);
 
 server.listen(port, () => {
     console.log(`Server is running on port ${port}`);

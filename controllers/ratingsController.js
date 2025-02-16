@@ -2,7 +2,6 @@ const Rating = require('../models/rating');
 const Book = require('../models/book');
 const {verify} = require("jsonwebtoken");
 const jwt = require("jsonwebtoken");
-// const { broadcast } = require('../wsServer');
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -19,22 +18,21 @@ const ratingController = {
         try {
             const decoded = verify(token, JWT_SECRET);
             const userId = decoded.id;
+            const username = decoded.username;
 
             const ratingId = await Rating.addRating(userId, bookId, rating, review);
             const timeCreated = await Rating.getTimeCreated(ratingId);
 
-            const broadcastData = {
-                action: 'add',
-                bookId,
-                ratingId,
-                rating,
-                review,
-                username: decoded.username,
-                createdAt: timeCreated,
-            };
-            console.log('Broadcasting new rating:', broadcastData);
-            
-            req.app.locals.broadcast(broadcastData);
+            const io = req.app.get('io'); 
+            io.emit('ratingUpdated', {
+                    action: 'add',
+                    bookId,
+                    ratingId,
+                    rating,
+                    review,
+                    username,
+                    createdAt: timeCreated,
+            });
 
             res.redirect(`/ratings/view/${googleBookId}?success=true`);
         } catch (error) {
@@ -59,16 +57,14 @@ const ratingController = {
 
             const deleted = await Rating.deleteRating(ratingId, userId);
             if (deleted) {
-                const broadcastData = {
+                const io = req.app.get('io'); 
+
+                io.emit('ratingUpdated', { 
                     action: 'delete',
                     ratingId,
                     bookId,
                     username,
-                };
-
-                console.log('Broadcasting new rating:', broadcastData);
-                
-                req.app.locals.broadcast(broadcastData);
+                });
 
                 return res.redirect(`/library/${username}`);
             } else {
@@ -142,7 +138,9 @@ const ratingController = {
             const {book} = await Rating.getRatingByBookByUser(userId, googleBookId);
             const updated = await Rating.editRating(userId, bookId , rating, review);
             if (updated) {
-                req.app.locals.broadcast({
+                const io = req.app.get('io'); 
+
+                io.emit('ratingUpdated', { 
                     action: 'edit',
                     bookId,
                     ratingId,
@@ -150,7 +148,7 @@ const ratingController = {
                     review,
                     username,
                     updatedAt: new Date(),
-                  });
+                });
 
                 res.render('books/editRating', {book: book, rating: rating, review: review,
                     username: username, successMessage: 'Rating updated successfully!', googleBookId: bookId});
